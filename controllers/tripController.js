@@ -9,7 +9,6 @@ exports.createTrip = async (req, res, next) => {
       return res.status(400).json({ errors: errors.array() });
     }
     const { title, startDate, endDate, budget } = req.body;
-    // Now req.user is guaranteed to exist because of dummyAuth
     const trip = await Trip.create({ userId: req.user.id, title, startDate, endDate, budget });
     res.status(201).json(trip);
   } catch (error) {
@@ -21,7 +20,7 @@ exports.createTrip = async (req, res, next) => {
 exports.getTrips = async (req, res, next) => {
   try {
     const trips = await Trip.find();
-    res.json(trips);
+    res.status(200).json(trips);
   } catch (error) {
     next(error);
   }
