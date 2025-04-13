@@ -18,16 +18,18 @@ router.get('/login', passport.authenticate('github', { scope: ['user:email'] }))
  * @swagger
  * /login/callback:
  *   get:
- *     summary: GitHub OAuth callback
+ *     summary: GitHub OAuth login callback
  *     tags: [Auth]
  *     responses:
  *       302:
  *         description: On successful authentication, redirects to the home page; on failure, redirects to /login-failure.
  */
-router.get('/login/callback', passport.authenticate('github', {
-  failureRedirect: '/login',
+router.get('/github/callback', passport.authenticate('github', {
+  failureRedirect: '/login-failure',
   successRedirect: '/'
 }));
+
+module.exports = router;
 
 /**
  * @swagger
