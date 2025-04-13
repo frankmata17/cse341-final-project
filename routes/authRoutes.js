@@ -1,84 +1,52 @@
 const express = require('express');
 const router = express.Router();
-const { login } = require('../controllers/authController');
-const { check } = require('express-validator');
 const passport = require('passport');
 
 /**
  * @swagger
- * /auth/login:
- *   post:
- *     summary: Login a user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *             required:
- *               - email
- *               - password
- *     responses:
- *       200:
- *         description: Login successful. Returns a success message and a JWT token if applicable.
- *       400:
- *         description: Bad request.
- *       401:
- *         description: Unauthorized.
- */
-router.post('/login', login);
-
-/**
- * @swagger
- * /auth/github:
+ * /login:
  *   get:
- *     summary: Authenticate with GitHub OAuth
+ *     summary: Initiate GitHub OAuth login
  *     tags: [Auth]
  *     responses:
  *       302:
  *         description: Redirects to GitHub for authentication.
  */
-router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
+router.get('/login', passport.authenticate('github', { scope: ['user:email'] }));
 
 /**
  * @swagger
- * /auth/github/callback:
+ * /login/callback:
  *   get:
  *     summary: GitHub OAuth callback
  *     tags: [Auth]
  *     responses:
  *       302:
- *         description: Redirects after authentication. On success, redirects to the home page; on failure, redirects to the login page.
+ *         description: On successful authentication, redirects to the home page; on failure, redirects to /login-failure.
  */
-router.get('/github/callback', passport.authenticate('github', {
-  failureRedirect: '/login', // adjust as needed
-  successRedirect: '/'       // adjust as needed
+router.get('/login/callback', passport.authenticate('github', {
+  failureRedirect: '/login-failure',
+  successRedirect: '/'
 }));
 
 /**
  * @swagger
- * /auth/logout:
+ * /logout:
  *   get:
  *     summary: Logout the current user
  *     tags: [Auth]
  *     responses:
  *       200:
- *         description: Logout successful.
+ *         description: Successfully logged out.
  *       500:
- *         description: Error logging out.
+ *         description: An error occurred while logging out.
  */
 router.get('/logout', (req, res, next) => {
   req.logout(function(err) {
     if (err) { 
       return next(err); 
     }
-    res.status(200).json({ message: 'Successfully logged out' });
+    res.status(200).json({ message: 'Successfully logged out.' });
   });
 });
 
