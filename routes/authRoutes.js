@@ -25,7 +25,7 @@ router.get('/login', passport.authenticate('github', { scope: ['user:email'] }))
  *         description: On successful authentication, redirects to the home page; on failure, redirects to /login-failure.
  */
 router.get('/login/callback', passport.authenticate('github', {
-  failureRedirect: '/login-failure',
+  failureRedirect: '/login',
   successRedirect: '/'
 }));
 
