@@ -28,7 +28,7 @@ passport.use(new GitHubStrategy({
             email: email,
             githubId: profile.id,
             role: 'user',
-            passwordHash: 'oauth' // Dummy value indicating this user is created via OAuth.
+            passwordHash: 'oauth'
           });
         }
       }
