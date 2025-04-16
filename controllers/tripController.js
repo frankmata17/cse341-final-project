@@ -9,7 +9,7 @@ exports.createTrip = async (req, res, next) => {
       return res.status(400).json({ errors: errors.array() });
     }
     const { title, startDate, endDate, budget } = req.body;
-    const trip = await Trip.create({ userId: req.user.id, title, startDate, endDate, budget });
+    const trip = await Trip.create({ userId: req.user.id, title, startDate, endDate, budget, description, itinerary, tripType });
     res.status(201).json(trip);
   } catch (error) {
     next(error);
