@@ -5,13 +5,6 @@ const tripController = require('../controllers/tripController');
 
 /**
  * @swagger
- * tags:
- *   name: Trips
- *   description: Trip management
- */
-
-/**
- * @swagger
  * /trips:
  *   post:
  *     summary: Create a new trip
@@ -33,6 +26,13 @@ const tripController = require('../controllers/tripController');
  *                 format: date
  *               budget:
  *                 type: number
+ *               description:
+ *                 type: string
+ *               itinerary:
+ *                 type: string
+ *               tripType:
+ *                 type: string
+ *                 enum: [vacation, business, adventure, other]
  *             required:
  *               - title
  *               - startDate
